@@ -45,7 +45,7 @@ class PluginFactory(object):
     REGEX_FOLDER_VALIDATOR = re.compile('^((?!__pycache__).)*$')
 
     # Regex validator for plugin file names
-    REGEX_FILE_VALIDATOR = re.compile('([a-zA-Z].*)(\.py$|\.pyc$)')
+    REGEX_FILE_VALIDATOR = re.compile(r'([a-zA-Z].*)(\.py$|\.pyc$)')
 
     def __init__(self, interface, paths=None, package_name=None, plugin_id=None, version_id=None, env_var=None):
         """

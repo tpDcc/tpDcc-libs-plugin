@@ -6,8 +6,8 @@ before_install:
 - pip install coveralls
 - pip install sphinx
 - pip install sphinx_rtd_theme
-- pip install tpDcc-libs-unittests
 install:
+- pip install -r requirements.txt
 - python setup.py install
 script:
 - find . -name \*.py -exec pycodestyle --exclude */externals/* --max-line-length=120
