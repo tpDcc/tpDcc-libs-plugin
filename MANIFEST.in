@@ -1,0 +1,3 @@
+include tpDcc/libs/plugin/__logging__.ini
+include versioneer.py
+include tpDcc/libs/plugin/_version.py
