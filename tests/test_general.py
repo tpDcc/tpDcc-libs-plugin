@@ -12,4 +12,3 @@ import pytest
 
 def test_version():
     assert __version__.get_version()
-
