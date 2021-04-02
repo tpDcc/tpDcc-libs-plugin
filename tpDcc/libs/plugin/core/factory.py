@@ -100,7 +100,7 @@ class PluginFactory(object):
         current_plugins_count = len(self._plugins)
 
         file_paths = list()
-        for root, _, files in folder_utils.walk_level(path, level=1):
+        for root, _, files in folder_utils.walk_level(path):
             if not self.REGEX_FOLDER_VALIDATOR.match(root):
                 continue
 
@@ -108,6 +108,8 @@ class PluginFactory(object):
 
                 # Skip files that do not match PluginFactory regex validator.
                 if not self.REGEX_FILE_VALIDATOR.match(file_name):
+                    continue
+                if file_name.startswith('test') or file_name in ['setup.py']:
                     continue
 
                 file_paths.append(path_utils.clean_path(os.path.join(root, file_name)))
@@ -119,22 +121,20 @@ class PluginFactory(object):
 
             if mechanism in (self.PluginLoadingMechanism.IMPORTABLE, self.PluginLoadingMechanism.GUESS):
                 module_to_inspect = self._mechanism_import(file_path)
-                if module_to_inspect:
-                    logger.debug('Module Import : {}'.format(file_path))
+                # if module_to_inspect:
+                #     logger.debug('Module Import : {}'.format(file_path))
 
             if not module_to_inspect:
                 if mechanism in (self.PluginLoadingMechanism.LOAD_SOURCE, self.PluginLoadingMechanism.GUESS):
                     module_to_inspect = self._mechanism_load(file_path)
-                    if module_to_inspect:
-                        logger.debug('Direct Load : {}'.format(file_path))
+                    # if module_to_inspect:
+                    #     logger.debug('Direct Load : {}'.format(file_path))
 
             if not module_to_inspect:
-                logger.debug('Could not import or load : {}'.format(file_path))
                 continue
 
             try:
                 for item_name in dir(module_to_inspect):
-
                     item = getattr(module_to_inspect, item_name)
                     if inspect.isclass(item):
                         if item == self._interface:
